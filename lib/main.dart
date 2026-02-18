@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:machine_test_totalx/views/login_page.dart';
+
 import 'package:machine_test_totalx/views/otp_verification_page.dart';
 
 void main(){
@@ -13,7 +13,7 @@ class MyApp extends StatelessWidget {
     return MaterialApp(
       debugShowCheckedModeBanner: false,
       title: 'Machine Test TotalX', 
-      home: LoginPage()
+      home: OtpVerificationPage()
     );
   }
 }
