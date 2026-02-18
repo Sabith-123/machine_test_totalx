@@ -141,6 +141,9 @@ class OtpVerificationPage extends StatelessWidget {
                           ),
                         ),
                         TextSpan(
+                          onEnter: (event) {
+                            
+                          },
                           text: " Resend",
                           style: TextStyle(
                             color: Color(0xFF2873F0),
