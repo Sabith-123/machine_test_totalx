@@ -11,7 +11,7 @@ class HomePage extends StatelessWidget {
   HomePage({super.key});
 
   String? sortvalueradiobutton = 'All';
-
+  final formKey = GlobalKey<FormState>();
   final nameCtr = TextEditingController();
   final ageCtr = TextEditingController();
   final phoneCtr = TextEditingController();
@@ -21,6 +21,19 @@ class HomePage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final provider = Provider.of<UserProvider>(context);
+
+    bool userdetailsvalid() {
+      if (formKey.currentState!.validate()) {
+        provider.adduserfun(
+          name: nameCtr.text.trim(),
+          age: ageCtr.text.trim(),
+          phonenumber: phoneCtr.text.trim(),
+        );
+        return true;
+      }
+      return false;
+    }
+
     return Scaffold(
       floatingActionButton: SizedBox(
         height: 70,
@@ -44,300 +57,330 @@ class HomePage extends StatelessWidget {
                             fontSize: 13,
                           ),
                         ),
-                        content: Column(
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          mainAxisSize: MainAxisSize.min,
-                          children: [
-                            Center(
-                              child: Stack(
-                                clipBehavior: Clip.none,
-                                children: [
-                                  Consumer<UserProvider>(
-                                    builder: (context, provider, _) {
-                                      return CircleAvatar(
-                                        radius: 50,
-                                        backgroundImage:
-                                            provider.imageBytes != null
-                                            ? MemoryImage(provider.imageBytes!)
-                                            : AssetImage(
-                                                'assets/images/user.png',
-                                              ),
-                                      );
-                                    },
-                                  ),
-                                  Positioned(
-                                    bottom: -6,
-                                    right: -4,
-                                    left: -4,
-                                    child: InkWell(
-                                      onTap: () {
-                                        showModalBottomSheet(
-                                          backgroundColor: Colors.white,
-                                          context: context,
-                                          builder: (context) {
-                                            return StatefulBuilder(
-                                              builder: (context, setStateSheet) {
-                                                return Container(
-                                                  width: double.infinity,
-                                                  padding: EdgeInsets.all(20),
-                                                  child: Column(
-                                                    crossAxisAlignment:
-                                                        CrossAxisAlignment
-                                                            .start,
-                                                    mainAxisSize:
-                                                        MainAxisSize.min,
-                                                    children: [
-                                                      Text(
-                                                        "Select Option",
-                                                        style: TextStyle(
-                                                          fontSize: 18,
-                                                          fontFamily:
-                                                              'montserrat',
-                                                          fontWeight:
-                                                              FontWeight(600),
-                                                        ),
-                                                      ),
-                                                      SizedBox(height: 20),
-                                                      Row(
-                                                        mainAxisAlignment:
-                                                            MainAxisAlignment
-                                                                .center,
-                                                        children: [
-                                                          InkWell(
-                                                            onTap: () {
-                                                              Navigator.pop(
-                                                                context,
-                                                              );
-                                                              setStateSheet(() {
-                                                                provider
-                                                                    .pickimagefun(
-                                                                      ImageSource
-                                                                          .camera,
-                                                                    );
-                                                              });
-                                                            },
-                                                            child: Icon(
-                                                              Icons
-                                                                  .camera_alt_outlined,
-                                                              size: 80,
-                                                            ),
-                                                          ),
-                                                          SizedBox(width: 20),
-                                                          InkWell(
-                                                            onTap: () {
-                                                              setStateSheet(() {
-                                                                provider.pickimagefun(
-                                                                  ImageSource
-                                                                      .gallery,
-                                                                );
-                                                              });
-                                                            },
-                                                            child: Icon(
-                                                              Icons.photo,
-                                                              size: 80,
-                                                            ),
-                                                          ),
-                                                        ],
-                                                      ),
-                                                    ],
-                                                  ),
-                                                );
-                                              },
-                                            );
-                                          },
+                        content: Form(
+                          key: formKey,
+                          child: Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            mainAxisSize: MainAxisSize.min,
+                            children: [
+                              Center(
+                                child: Stack(
+                                  clipBehavior: Clip.none,
+                                  children: [
+                                    Consumer<UserProvider>(
+                                      builder: (context, provider, _) {
+                                        return CircleAvatar(
+                                          radius: 50,
+                                          backgroundImage:
+                                              provider.imageBytes != null
+                                              ? MemoryImage(
+                                                  provider.imageBytes!,
+                                                )
+                                              : AssetImage(
+                                                  'assets/images/user.png',
+                                                ),
                                         );
                                       },
-                                      child: Container(
-                                        width: 25,
-                                        height: 45,
-                                        decoration: BoxDecoration(
-                                          // ignore: deprecated_member_use
-                                          color: Colors.black.withOpacity(0.5),
-                                          borderRadius: BorderRadius.only(
-                                            bottomLeft: Radius.circular(200),
-                                            bottomRight: Radius.circular(200),
+                                    ),
+                                    Positioned(
+                                      bottom: -6,
+                                      right: -4,
+                                      left: -4,
+                                      child: InkWell(
+                                        onTap: () {
+                                          showModalBottomSheet(
+                                            backgroundColor: Colors.white,
+                                            context: context,
+                                            builder: (context) {
+                                              return StatefulBuilder(
+                                                builder: (context, setStateSheet) {
+                                                  return Container(
+                                                    width: double.infinity,
+                                                    padding: EdgeInsets.all(20),
+                                                    child: Column(
+                                                      crossAxisAlignment:
+                                                          CrossAxisAlignment
+                                                              .start,
+                                                      mainAxisSize:
+                                                          MainAxisSize.min,
+                                                      children: [
+                                                        Text(
+                                                          "Select Option",
+                                                          style: TextStyle(
+                                                            fontSize: 18,
+                                                            fontFamily:
+                                                                'montserrat',
+                                                            fontWeight:
+                                                                FontWeight(600),
+                                                          ),
+                                                        ),
+                                                        SizedBox(height: 20),
+                                                        Row(
+                                                          mainAxisAlignment:
+                                                              MainAxisAlignment
+                                                                  .center,
+                                                          children: [
+                                                            InkWell(
+                                                              onTap: () {
+                                                                Navigator.pop(
+                                                                  context,
+                                                                );
+                                                                setStateSheet(() {
+                                                                  provider.pickimagefun(
+                                                                    ImageSource
+                                                                        .camera,
+                                                                  );
+                                                                });
+                                                              },
+                                                              child: Icon(
+                                                                Icons
+                                                                    .camera_alt_outlined,
+                                                                size: 80,
+                                                              ),
+                                                            ),
+                                                            SizedBox(width: 20),
+                                                            InkWell(
+                                                              onTap: () {
+                                                                setStateSheet(() {
+                                                                  provider.pickimagefun(
+                                                                    ImageSource
+                                                                        .gallery,
+                                                                  );
+                                                                });
+                                                              },
+                                                              child: Icon(
+                                                                Icons.photo,
+                                                                size: 80,
+                                                              ),
+                                                            ),
+                                                          ],
+                                                        ),
+                                                      ],
+                                                    ),
+                                                  );
+                                                },
+                                              );
+                                            },
+                                          );
+                                        },
+                                        child: Container(
+                                          width: 25,
+                                          height: 45,
+                                          decoration: BoxDecoration(
+                                            // ignore: deprecated_member_use
+                                            color: Colors.black.withOpacity(
+                                              0.5,
+                                            ),
+                                            borderRadius: BorderRadius.only(
+                                              bottomLeft: Radius.circular(200),
+                                              bottomRight: Radius.circular(200),
+                                            ),
+                                          ),
+                                          child: Icon(
+                                            Icons.camera_alt_outlined,
+                                            color: Colors.white,
+                                            size: 30,
                                           ),
                                         ),
-                                        child: Icon(
-                                          Icons.camera_alt_outlined,
-                                          color: Colors.white,
-                                          size: 30,
+                                      ),
+                                    ),
+                                  ],
+                                ),
+                              ),
+                              SizedBox(height: 20),
+                              Padding(
+                                padding: const EdgeInsets.only(left: 10),
+                                child: Text(
+                                  'Name',
+                                  style: TextStyle(
+                                    fontFamily: 'montserrat',
+                                    fontWeight: FontWeight(400),
+                                    fontSize: 18,
+                                  ),
+                                ),
+                              ),
+                              SizedBox(height: 10),
+                              TextFormField(
+                                validator: (value) {
+                                  if (value == null || value.isEmpty) {
+                                    return 'Enter your name';
+                                  }
+                                },
+                                controller: nameCtr,
+                                decoration: InputDecoration(
+                                  border: OutlineInputBorder(
+                                    borderSide: BorderSide(
+                                      color: Color.fromARGB(169, 101, 101, 132),
+
+                                      width: 1,
+                                    ),
+                                    borderRadius: BorderRadius.circular(8),
+                                  ),
+                                  enabledBorder: OutlineInputBorder(
+                                    borderSide: BorderSide(
+                                      color: Color.fromARGB(169, 101, 101, 132),
+
+                                      width: 1,
+                                    ),
+                                    borderRadius: BorderRadius.circular(8),
+                                  ),
+
+                                  focusedBorder: OutlineInputBorder(
+                                    borderSide: BorderSide(
+                                      color: Color.fromARGB(169, 101, 101, 132),
+                                      width: 1,
+                                    ),
+
+                                    borderRadius: BorderRadius.circular(8),
+                                  ),
+                                  hint: Row(
+                                    children: [
+                                      Text(
+                                        'Enter Your Name',
+                                        style: TextStyle(
+                                          fontSize: 12,
+                                          fontFamily: 'montserrat',
+                                          fontWeight: FontWeight(400),
+                                          color: Color(0xFF333333),
                                         ),
                                       ),
+                                    ],
+                                  ),
+                                ),
+                              ),
+                              SizedBox(height: 10),
+                              Padding(
+                                padding: const EdgeInsets.only(left: 10),
+                                child: Text(
+                                  'Age',
+                                  style: TextStyle(
+                                    fontFamily: 'montserrat',
+                                    fontWeight: FontWeight(400),
+                                    fontSize: 18,
+                                    color: Color(0xFF333333),
+                                  ),
+                                ),
+                              ),
+                              SizedBox(height: 10),
+                              TextFormField(
+                                validator: (value) {
+                                  if (value == null || value.isEmpty) {
+                                    return 'Enter Your age';
+                                  }
+                                  return null;
+                                },
+                                controller: ageCtr,
+                                keyboardType: TextInputType.number,
+                                decoration: InputDecoration(
+                                  border: OutlineInputBorder(
+                                    borderSide: BorderSide(
+                                      color: Color.fromARGB(169, 101, 101, 132),
+
+                                      width: 1,
                                     ),
+                                    borderRadius: BorderRadius.circular(8),
                                   ),
-                                ],
-                              ),
-                            ),
-                            SizedBox(height: 20),
-                            Padding(
-                              padding: const EdgeInsets.only(left: 10),
-                              child: Text(
-                                'Name',
-                                style: TextStyle(
-                                  fontFamily: 'montserrat',
-                                  fontWeight: FontWeight(400),
-                                  fontSize: 18,
-                                ),
-                              ),
-                            ),
-                            SizedBox(height: 10),
-                            TextFormField(
-                              controller: nameCtr,
-                              decoration: InputDecoration(
-                                border: OutlineInputBorder(
-                                  borderSide: BorderSide(
-                                    color: Color.fromARGB(169, 101, 101, 132),
+                                  enabledBorder: OutlineInputBorder(
+                                    borderSide: BorderSide(
+                                      color: Color.fromARGB(169, 101, 101, 132),
 
-                                    width: 1,
-                                  ),
-                                  borderRadius: BorderRadius.circular(8),
-                                ),
-                                enabledBorder: OutlineInputBorder(
-                                  borderSide: BorderSide(
-                                    color: Color.fromARGB(169, 101, 101, 132),
-
-                                    width: 1,
-                                  ),
-                                  borderRadius: BorderRadius.circular(8),
-                                ),
-
-                                focusedBorder: OutlineInputBorder(
-                                  borderSide: BorderSide(
-                                    color: Color.fromARGB(169, 101, 101, 132),
-                                    width: 1,
+                                      width: 1,
+                                    ),
+                                    borderRadius: BorderRadius.circular(8),
                                   ),
 
-                                  borderRadius: BorderRadius.circular(8),
-                                ),
-                                hint: Row(
-                                  children: [
-                                    Text(
-                                      'Enter Your Name',
-                                      style: TextStyle(
-                                        fontSize: 12,
-                                        fontFamily: 'montserrat',
-                                        fontWeight: FontWeight(400),
-                                        color: Color(0xFF333333),
+                                  focusedBorder: OutlineInputBorder(
+                                    borderSide: BorderSide(
+                                      color: Color.fromARGB(169, 101, 101, 132),
+                                      width: 1,
+                                    ),
+
+                                    borderRadius: BorderRadius.circular(8),
+                                  ),
+                                  hint: Row(
+                                    children: [
+                                      Text(
+                                        'Enter Your Age',
+                                        style: TextStyle(
+                                          fontSize: 12,
+                                          fontFamily: 'montserrat',
+                                          fontWeight: FontWeight(400),
+                                        ),
                                       ),
+                                    ],
+                                  ),
+                                ),
+                              ),
+                              SizedBox(height: 10),
+                              Padding(
+                                padding: const EdgeInsets.only(left: 10),
+                                child: Text(
+                                  'Phone number',
+                                  style: TextStyle(
+                                    fontFamily: 'montserrat',
+                                    fontWeight: FontWeight(400),
+                                    fontSize: 18,
+                                    color: Color(0xFF333333),
+                                  ),
+                                ),
+                              ),
+                              SizedBox(height: 10),
+                              TextFormField(
+                                validator: (value) {
+                                  if (value == null || value.isEmpty) {
+                                    return 'Enter the phone';
+                                  }
+                                  if (value.length < 10) {
+                                    return 'enter phone number must 10 digit';
+                                  }
+                                  if (value.length > 10) {
+                                    return 'enter phone number 10 digit';
+                                  }
+                                  return null;
+                                },
+                                controller: phoneCtr,
+                                decoration: InputDecoration(
+                                  border: OutlineInputBorder(
+                                    borderSide: BorderSide(
+                                      color: Color.fromARGB(169, 101, 101, 132),
+
+                                      width: 1,
                                     ),
-                                  ],
-                                ),
-                              ),
-                            ),
-                            SizedBox(height: 10),
-                            Padding(
-                              padding: const EdgeInsets.only(left: 10),
-                              child: Text(
-                                'Age',
-                                style: TextStyle(
-                                  fontFamily: 'montserrat',
-                                  fontWeight: FontWeight(400),
-                                  fontSize: 18,
-                                  color: Color(0xFF333333),
-                                ),
-                              ),
-                            ),
-                            SizedBox(height: 10),
-                            TextFormField(
-                              controller: ageCtr,
-                              decoration: InputDecoration(
-                                border: OutlineInputBorder(
-                                  borderSide: BorderSide(
-                                    color: Color.fromARGB(169, 101, 101, 132),
-
-                                    width: 1,
+                                    borderRadius: BorderRadius.circular(8),
                                   ),
-                                  borderRadius: BorderRadius.circular(8),
-                                ),
-                                enabledBorder: OutlineInputBorder(
-                                  borderSide: BorderSide(
-                                    color: Color.fromARGB(169, 101, 101, 132),
+                                  enabledBorder: OutlineInputBorder(
+                                    borderSide: BorderSide(
+                                      color: Color.fromARGB(169, 101, 101, 132),
 
-                                    width: 1,
-                                  ),
-                                  borderRadius: BorderRadius.circular(8),
-                                ),
-
-                                focusedBorder: OutlineInputBorder(
-                                  borderSide: BorderSide(
-                                    color: Color.fromARGB(169, 101, 101, 132),
-                                    width: 1,
+                                      width: 1,
+                                    ),
+                                    borderRadius: BorderRadius.circular(8),
                                   ),
 
-                                  borderRadius: BorderRadius.circular(8),
-                                ),
-                                hint: Row(
-                                  children: [
-                                    Text(
-                                      'Enter Your Age',
-                                      style: TextStyle(
-                                        fontSize: 12,
-                                        fontFamily: 'montserrat',
-                                        fontWeight: FontWeight(400),
+                                  focusedBorder: OutlineInputBorder(
+                                    borderSide: BorderSide(
+                                      color: Color.fromARGB(169, 101, 101, 132),
+                                      width: 1,
+                                    ),
+
+                                    borderRadius: BorderRadius.circular(8),
+                                  ),
+                                  hint: Row(
+                                    children: [
+                                      Text(
+                                        'Enter Your phone number',
+                                        style: TextStyle(
+                                          fontSize: 12,
+                                          fontFamily: 'montserrat',
+                                          fontWeight: FontWeight(400),
+                                        ),
                                       ),
-                                    ),
-                                  ],
+                                    ],
+                                  ),
                                 ),
                               ),
-                            ),
-                            SizedBox(height: 10),
-                            Padding(
-                              padding: const EdgeInsets.only(left: 10),
-                              child: Text(
-                                'Phone number',
-                                style: TextStyle(
-                                  fontFamily: 'montserrat',
-                                  fontWeight: FontWeight(400),
-                                  fontSize: 18,
-                                  color: Color(0xFF333333),
-                                ),
-                              ),
-                            ),
-                            SizedBox(height: 10),
-                            TextFormField(
-                              controller: phoneCtr,
-                              decoration: InputDecoration(
-                                border: OutlineInputBorder(
-                                  borderSide: BorderSide(
-                                    color: Color.fromARGB(169, 101, 101, 132),
-
-                                    width: 1,
-                                  ),
-                                  borderRadius: BorderRadius.circular(8),
-                                ),
-                                enabledBorder: OutlineInputBorder(
-                                  borderSide: BorderSide(
-                                    color: Color.fromARGB(169, 101, 101, 132),
-
-                                    width: 1,
-                                  ),
-                                  borderRadius: BorderRadius.circular(8),
-                                ),
-
-                                focusedBorder: OutlineInputBorder(
-                                  borderSide: BorderSide(
-                                    color: Color.fromARGB(169, 101, 101, 132),
-                                    width: 1,
-                                  ),
-
-                                  borderRadius: BorderRadius.circular(8),
-                                ),
-                                hint: Row(
-                                  children: [
-                                    Text(
-                                      'Enter Your phone number',
-                                      style: TextStyle(
-                                        fontSize: 12,
-                                        fontFamily: 'montserrat',
-                                        fontWeight: FontWeight(400),
-                                      ),
-                                    ),
-                                  ],
-                                ),
-                              ),
-                            ),
-                          ],
+                            ],
+                          ),
                         ),
                         actions: [
                           Row(
@@ -370,13 +413,21 @@ class HomePage extends StatelessWidget {
                               ),
                               SizedBox(width: 10),
                               InkWell(
-                                onTap: () async {
-                                  provider.adduserfun(
-                                    name: nameCtr.text.trim(),
-                                    age: ageCtr.text,
-                                    phonenumber: phoneCtr.text.trim(),
+                                // onTap: () async {
+                                // provider.adduserfun(
+                                //   name: nameCtr.text.trim(),
+                                //   age: ageCtr.text,
+                                //   phonenumber: phoneCtr.text.trim(),
+                                // );
+                                // nameCtr.clear();
+                                // ageCtr.clear();
+                                // phoneCtr.clear();
+                                // Navigator.pop(context);
+                                onTap: () {
+                                  final isValid = userdetailsvalid();
 
-                                  );
+                                  if (!isValid) return; //  STOP here if invalid
+
                                   nameCtr.clear();
                                   ageCtr.clear();
                                   phoneCtr.clear();
@@ -461,7 +512,7 @@ class HomePage extends StatelessWidget {
                               Icons.search_rounded,
                               color: Colors.black,
                             ),
-            
+
                             border: OutlineInputBorder(
                               borderSide: BorderSide(
                                 color: Color.fromARGB(169, 101, 101, 132),
@@ -472,18 +523,18 @@ class HomePage extends StatelessWidget {
                             enabledBorder: OutlineInputBorder(
                               borderSide: BorderSide(
                                 color: Color.fromARGB(169, 101, 101, 132),
-            
+
                                 width: 1,
                               ),
                               borderRadius: BorderRadius.circular(36),
                             ),
-            
+
                             focusedBorder: OutlineInputBorder(
                               borderSide: BorderSide(
                                 color: Color.fromARGB(169, 101, 101, 132),
                                 width: 1,
                               ),
-            
+
                               borderRadius: BorderRadius.circular(36),
                             ),
                             hint: Row(
@@ -526,7 +577,7 @@ class HomePage extends StatelessWidget {
                                             fontWeight: FontWeight(600),
                                           ),
                                         ),
-            
+
                                         SizedBox(height: 20),
                                         RadioListTile(
                                           value: 'All',
@@ -538,7 +589,8 @@ class HomePage extends StatelessWidget {
                                             if (value == 'All') {
                                               provider.filtereduserdetails =
                                                   provider.userdetails;
-                                            } else if (value == 'Age: Younger') {
+                                            } else if (value ==
+                                                'Age: Younger') {
                                               provider.sortByAge(true);
                                             } else if (value == 'Age: Elder') {
                                               provider.sortByAge(false);
@@ -554,7 +606,7 @@ class HomePage extends StatelessWidget {
                                             ),
                                           ),
                                         ),
-            
+
                                         RadioListTile(
                                           value: 'Age: Elder',
                                           groupValue: sortvalueradiobutton,
@@ -565,7 +617,8 @@ class HomePage extends StatelessWidget {
                                             if (value == 'All') {
                                               provider.filtereduserdetails =
                                                   provider.userdetails;
-                                            } else if (value == 'Age: Younger') {
+                                            } else if (value ==
+                                                'Age: Younger') {
                                               provider.sortByAge(true);
                                             } else if (value == 'Age: Elder') {
                                               provider.sortByAge(false);
@@ -591,7 +644,8 @@ class HomePage extends StatelessWidget {
                                             if (value == 'All') {
                                               provider.filtereduserdetails =
                                                   provider.userdetails;
-                                            } else if (value == 'Age: Younger') {
+                                            } else if (value ==
+                                                'Age: Younger') {
                                               provider.sortByAge(true);
                                             } else if (value == 'Age: Elder') {
                                               provider.sortByAge(false);
@@ -649,11 +703,11 @@ class HomePage extends StatelessWidget {
                 provider.filtereduserdetails.isEmpty
                     ? Center(child: Text('No user found'))
                     : ListView.builder(
-                      shrinkWrap: true,
-                      physics: NeverScrollableScrollPhysics(),
-                       
+                        shrinkWrap: true,
+                        physics: NeverScrollableScrollPhysics(),
+
                         itemCount: provider.filtereduserdetails.length,
-                
+
                         itemBuilder: (context, index) {
                           return Container(
                             margin: EdgeInsets.only(

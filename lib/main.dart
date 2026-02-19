@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:machine_test_totalx/viewmodels/user_provider.dart';
 import 'package:machine_test_totalx/views/home_page.dart';
+import 'package:machine_test_totalx/views/login_page.dart';
 import 'package:provider/provider.dart';
 
 
@@ -17,7 +18,7 @@ class MyApp extends StatelessWidget {
     return MaterialApp(
       debugShowCheckedModeBanner: false,
       title: 'Machine Test TotalX', 
-      home: HomePage(),
+      home: LoginPage(),
     );
   }
 }

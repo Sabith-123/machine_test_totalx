@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:machine_test_totalx/views/otp_verification_page.dart';
 
 class LoginPage extends StatelessWidget {
   const LoginPage({super.key});
@@ -139,22 +140,26 @@ class LoginPage extends StatelessWidget {
                   onTap: () {
                     
                   },
-                  child: Container(
-                    height: 44,
-                    width: double.infinity,
-                    decoration: BoxDecoration(
-                      borderRadius: BorderRadius.circular(60),
-                      color: Color(0xFF100E09),
-                    ),
-                    child: Center(
-                      child: Padding(
-                        padding: const EdgeInsets.all(10),
-                        child: Text(
-                          'Get OTP',
-                          style: TextStyle(
-                            color: Color(0xFFFFFFFF),
-                            fontFamily: 'montserrat',
-                            fontWeight: FontWeight(600),
+                  child: InkWell(onTap: () {Navigator.pushAndRemoveUntil(context, MaterialPageRoute(builder: (context) {
+                    return OtpVerificationPage();
+                  },), (route) => false,);},
+                    child: Container(
+                      height: 44,
+                      width: double.infinity,
+                      decoration: BoxDecoration(
+                        borderRadius: BorderRadius.circular(60),
+                        color: Color(0xFF100E09),
+                      ),
+                      child: Center(
+                        child: Padding(
+                          padding: const EdgeInsets.all(10),
+                          child: Text(
+                            'Get OTP',
+                            style: TextStyle(
+                              color: Color(0xFFFFFFFF),
+                              fontFamily: 'montserrat',
+                              fontWeight: FontWeight(600),
+                            ),
                           ),
                         ),
                       ),

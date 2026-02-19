@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:machine_test_totalx/views/home_page.dart';
 import 'package:pinput/pinput.dart';
 
 class OtpVerificationPage extends StatelessWidget {
@@ -158,7 +159,9 @@ class OtpVerificationPage extends StatelessWidget {
                 ),
                 SizedBox(height: 30),
                 InkWell(
-                  onTap: () {},
+                  onTap: () {
+                    Navigator.pushAndRemoveUntil(context, MaterialPageRoute(builder: (context) => HomePage(),), (route) => false,);
+                  },
                   child: Container(
                     height: 44,
                     width: double.infinity,
