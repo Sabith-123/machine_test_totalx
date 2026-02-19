@@ -326,9 +326,11 @@ class HomePage extends StatelessWidget {
                     InkWell(
                       onTap: () {
                         showModalBottomSheet(
+                          backgroundColor: Colors.white,
                           context: context,
                           builder: (context) {
                             return Container(
+                             
                               width: double.infinity,
                               padding: EdgeInsets.all(20),
                               child: Column(
