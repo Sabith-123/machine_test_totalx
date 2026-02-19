@@ -1,7 +1,7 @@
 class UserModel {
- final String name;
- final int age;
-final  int phonenumber;
+  final String name;
+  final String age;
+  final String phonenumber;
   String? image;
 
   UserModel({
@@ -18,12 +18,12 @@ final  int phonenumber;
       image: json['image'],
     );
   }
-  Map<String,dynamic> toJson(){
+  Map<String, dynamic> toJson() {
     return {
-      'name':name,
-      'age':age,
-      'phonenumber':phonenumber,
-      'image':image
+      'name': name,
+      'age': age,
+      'phonenumber': phonenumber,
+      'image': image,
     };
   }
 }

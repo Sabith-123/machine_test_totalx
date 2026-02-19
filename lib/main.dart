@@ -1,9 +1,13 @@
 import 'package:flutter/material.dart';
+import 'package:machine_test_totalx/viewmodels/user_provider.dart';
 import 'package:machine_test_totalx/views/home_page.dart';
+import 'package:provider/provider.dart';
 
 
 void main(){
-  runApp(MyApp());
+  runApp(MultiProvider(providers: [
+    ChangeNotifierProvider(create: (context) => UserProvider()..fetchData(),),
+  ],child: MyApp(),));
 }
 class MyApp extends StatelessWidget {
   const MyApp({super.key});
