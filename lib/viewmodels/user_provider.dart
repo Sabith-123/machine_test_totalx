@@ -38,6 +38,7 @@ class UserProvider extends ChangeNotifier {
     final localstore = await SharedPreferences.getInstance();
     final data = userdetails.map((e) => e.toJson()).toList();
     await localstore.setString('userdata', jsonEncode(data));
+    notifyListeners();
   }
 
   //============ add user function ========
