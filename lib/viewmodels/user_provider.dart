@@ -62,6 +62,7 @@ class UserProvider extends ChangeNotifier {
         phonenumber=null;
         imageBytes = null;
         images = null;
+        fetchData();
         notifyListeners();
       } else {
         throw "Validation failed: some fields are empty or image missing";
