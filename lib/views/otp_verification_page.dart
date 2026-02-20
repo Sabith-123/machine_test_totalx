@@ -1,9 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:machine_test_totalx/views/home_page.dart';
 import 'package:pinput/pinput.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 class OtpVerificationPage extends StatelessWidget {
-  const OtpVerificationPage({super.key});
+   OtpVerificationPage({super.key});
+
+  final formKey = GlobalKey<FormState>();
+  final otpCtr = TextEditingController();
 
   @override
   Widget build(BuildContext context) {
@@ -16,175 +20,191 @@ class OtpVerificationPage extends StatelessWidget {
         child: SafeArea(
           child: Padding(
             padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 20),
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                Center(
-                  child: Padding(
-                    padding: const EdgeInsets.only(top: 50),
-                    child: Image(
-                      width: 130,
-                      image: AssetImage('assets/images/Group.png'),
+            child: Form(
+              key: formKey,
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Center(
+                    child: Padding(
+                      padding: const EdgeInsets.only(top: 50),
+                      child: Image(
+                        width: 130,
+                        image: AssetImage('assets/images/Group.png'),
+                      ),
                     ),
                   ),
-                ),
-                SizedBox(height: 50),
-                Padding(
-                  padding: const EdgeInsets.only(left: 4),
-                  child: Text(
-                    'OTP Verification',
-                    style: TextStyle(
-                      fontFamily: 'montserrat',
-                      fontWeight: FontWeight(600),
-                      fontSize: 14,
-                    ),
-                  ),
-                ),
-                SizedBox(height: 15),
-                Padding(
-                  padding: const EdgeInsets.only(left: 4),
-                  child: Text(
-                    'Enter the verification code we just sent to your number +91 *******21',
-                    style: TextStyle(
-                      fontFamily: 'montserrat',
-                      fontWeight: FontWeight(400),
-                      fontSize: 14,
-                    ),
-                  ),
-                ),
-                SizedBox(height: 20),
-                Center(
-                  child: Pinput(
-                    length: 6,
-
-                    defaultPinTheme: PinTheme(
-                      width: 44,
-                      height: 44,
-                      textStyle: const TextStyle(
-                        fontSize: 18,
-                        color: Colors.red,
+                  SizedBox(height: 50),
+                  Padding(
+                    padding: const EdgeInsets.only(left: 4),
+                    child: Text(
+                      'OTP Verification',
+                      style: TextStyle(
                         fontFamily: 'montserrat',
                         fontWeight: FontWeight(600),
-                      ),
-                      decoration: BoxDecoration(
-                        border: Border.all(color: Colors.grey.shade300),
-                        borderRadius: BorderRadius.circular(10),
-                      ),
-                    ),
-                    followingPinTheme: PinTheme(
-                      width: 44,
-                      height: 44,
-                      textStyle: const TextStyle(
-                        fontSize: 18,
-                        color: Colors.black,
-                        fontFamily: 'montserrat',
-                        fontWeight: FontWeight(600),
-                      ),
-                      decoration: BoxDecoration(
-                        border: Border.all(color: Color(0xFF100E09)),
-                        borderRadius: BorderRadius.circular(10),
-                      ),
-                    ),
-                    disabledPinTheme: PinTheme(
-                      width: 44,
-                      height: 44,
-                      textStyle: const TextStyle(
-                        fontSize: 18,
-                        color: Colors.black,
-                        fontFamily: 'montserrat',
-                        fontWeight: FontWeight(600),
-                      ),
-                      decoration: BoxDecoration(
-                        border: Border.all(color: Color.fromARGB(255, 125, 124, 123)),
-                        borderRadius: BorderRadius.circular(10),
-                      ),
-                    ),
-                    focusedPinTheme: PinTheme(
-                      width: 44,
-                      height: 44,
-                      textStyle: const TextStyle(
-                        fontSize: 18,
-                        color: Colors.black,
-                        fontFamily: 'montserrat',
-                        fontWeight: FontWeight(600),
-                      ),
-                      decoration: BoxDecoration(
-                        border: Border.all(color: Color.fromRGBO(26, 22, 13, 1)),
-                        borderRadius: BorderRadius.circular(10),
+                        fontSize: 14,
                       ),
                     ),
                   ),
-                ),
-
-                SizedBox(height: 20),
-                Center(
-                  child: Text(
-                    '56 Sec',
-                    style: TextStyle(
-                      color: Color(0xFFFF5454),
-                      fontFamily: 'montserrat',
-                      fontWeight: FontWeight(600),
+                  SizedBox(height: 15),
+                  Padding(
+                    padding: const EdgeInsets.only(left: 4),
+                    child: Text(
+                      'Enter the verification code we just sent to your number +91 *******21',
+                      style: TextStyle(
+                        fontFamily: 'montserrat',
+                        fontWeight: FontWeight(400),
+                        fontSize: 14,
+                      ),
                     ),
                   ),
-                ),
-                SizedBox(height: 20),
-                Center(
-                  child: RichText(
-                    text: TextSpan(
-                      children: [
-                        TextSpan(
-                          text: "Don't Get OTP? ",
-                          style: TextStyle(
-                            color: Colors.black,
-                            fontSize: 12,
-                            fontFamily: 'montserrat',
-                            fontWeight: FontWeight(500),
-                          ),
+                  SizedBox(height: 20),
+                  Center(
+                    child: Pinput(
+                      controller: otpCtr,
+                      validator: (value) {
+                        if(value == null || value.isEmpty){
+                          return 'Enter otp';
+                        }else if(value.length < 6){
+                          return 'Enter 6 numbers';
+                        }
+                        return null;
+                      },
+                      length: 6,
+              
+                      defaultPinTheme: PinTheme(
+                        width: 44,
+                        height: 44,
+                        textStyle: const TextStyle(
+                          fontSize: 18,
+                          color: Colors.red,
+                          fontFamily: 'montserrat',
+                          fontWeight: FontWeight(600),
                         ),
-                        TextSpan(
-                          onEnter: (event) {
-                            
-                          },
-                          text: " Resend",
-                          style: TextStyle(
-                            color: Color(0xFF2873F0),
-                            fontSize: 12,
-                            fontFamily: 'montserrat',
-                            fontWeight: FontWeight(500),
-                          ),
+                        decoration: BoxDecoration(
+                          border: Border.all(color: Colors.grey.shade300),
+                          borderRadius: BorderRadius.circular(10),
                         ),
-                      ],
-                    ),
-                  ),
-                ),
-                SizedBox(height: 30),
-                InkWell(
-                  onTap: () {
-                    Navigator.pushAndRemoveUntil(context, MaterialPageRoute(builder: (context) => HomePage(),), (route) => false,);
-                  },
-                  child: Container(
-                    height: 44,
-                    width: double.infinity,
-                    decoration: BoxDecoration(
-                      borderRadius: BorderRadius.circular(60),
-                      color: Color(0xFF100E09),
-                    ),
-                    child: Center(
-                      child: Padding(
-                        padding: const EdgeInsets.all(10),
-                        child: Text(
-                          'Verify',
-                          style: TextStyle(
-                            color: Color(0xFFFFFFFF),
-                            fontFamily: 'montserrat',
-                            fontWeight: FontWeight(600),
-                          ),
+                      ),
+                      followingPinTheme: PinTheme(
+                        width: 44,
+                        height: 44,
+                        textStyle: const TextStyle(
+                          fontSize: 18,
+                          color: Colors.black,
+                          fontFamily: 'montserrat',
+                          fontWeight: FontWeight(600),
+                        ),
+                        decoration: BoxDecoration(
+                          border: Border.all(color: Color(0xFF100E09)),
+                          borderRadius: BorderRadius.circular(10),
+                        ),
+                      ),
+                      disabledPinTheme: PinTheme(
+                        width: 44,
+                        height: 44,
+                        textStyle: const TextStyle(
+                          fontSize: 18,
+                          color: Colors.black,
+                          fontFamily: 'montserrat',
+                          fontWeight: FontWeight(600),
+                        ),
+                        decoration: BoxDecoration(
+                          border: Border.all(color: Color.fromARGB(255, 125, 124, 123)),
+                          borderRadius: BorderRadius.circular(10),
+                        ),
+                      ),
+                      focusedPinTheme: PinTheme(
+                        width: 44,
+                        height: 44,
+                        textStyle: const TextStyle(
+                          fontSize: 18,
+                          color: Colors.black,
+                          fontFamily: 'montserrat',
+                          fontWeight: FontWeight(600),
+                        ),
+                        decoration: BoxDecoration(
+                          border: Border.all(color: Color.fromRGBO(26, 22, 13, 1)),
+                          borderRadius: BorderRadius.circular(10),
                         ),
                       ),
                     ),
                   ),
-                ),
-              ],
+              
+                  SizedBox(height: 20),
+                  Center(
+                    child: Text(
+                      '56 Sec',
+                      style: TextStyle(
+                        color: Color(0xFFFF5454),
+                        fontFamily: 'montserrat',
+                        fontWeight: FontWeight(600),
+                      ),
+                    ),
+                  ),
+                  SizedBox(height: 20),
+                  Center(
+                    child: RichText(
+                      text: TextSpan(
+                        children: [
+                          TextSpan(
+                            text: "Don't Get OTP? ",
+                            style: TextStyle(
+                              color: Colors.black,
+                              fontSize: 12,
+                              fontFamily: 'montserrat',
+                              fontWeight: FontWeight(500),
+                            ),
+                          ),
+                          TextSpan(
+                            onEnter: (event) {
+                              
+                            },
+                            text: " Resend",
+                            style: TextStyle(
+                              color: Color(0xFF2873F0),
+                              fontSize: 12,
+                              fontFamily: 'montserrat',
+                              fontWeight: FontWeight(500),
+                            ),
+                          ),
+                        ],
+                      ),
+                    ),
+                  ),
+                  SizedBox(height: 30),
+                  InkWell(
+                    onTap: () async{
+                      if(formKey.currentState!.validate()){
+                      Navigator.pushAndRemoveUntil(context, MaterialPageRoute(builder: (context) => HomePage(),), (route) => false,);
+                      final pref = await SharedPreferences.getInstance();
+                      pref.setBool('start',true);
+                      }
+                    },
+                    child: Container(
+                      height: 44,
+                      width: double.infinity,
+                      decoration: BoxDecoration(
+                        borderRadius: BorderRadius.circular(60),
+                        color: Color(0xFF100E09),
+                      ),
+                      child: Center(
+                        child: Padding(
+                          padding: const EdgeInsets.all(10),
+                          child: Text(
+                            'Verify',
+                            style: TextStyle(
+                              color: Color(0xFFFFFFFF),
+                              fontFamily: 'montserrat',
+                              fontWeight: FontWeight(600),
+                            ),
+                          ),
+                        ),
+                      ),
+                    ),
+                  ),
+                ],
+              ),
             ),
           ),
         ),

@@ -41,6 +41,7 @@ class HomePage extends StatelessWidget {
         child: FloatingActionButton(
           onPressed: () {
             showDialog(
+              
               context: context,
               builder: (context) {
                 return BackdropFilter(
@@ -48,6 +49,8 @@ class HomePage extends StatelessWidget {
                   child: StatefulBuilder(
                     builder: (context, stateDialog) {
                       return AlertDialog(
+                        scrollable: true,
+                        
                         backgroundColor: Colors.white,
                         title: Text(
                           'Add A New User',
