@@ -141,6 +141,9 @@ class HomePage extends StatelessWidget {
                                                             SizedBox(width: 20),
                                                             InkWell(
                                                               onTap: () {
+                                                                Navigator.pop(
+                                                                  context,
+                                                                );
                                                                 setStateSheet(() {
                                                                   provider.pickimagefun(
                                                                     ImageSource
@@ -326,6 +329,7 @@ class HomePage extends StatelessWidget {
                               ),
                               SizedBox(height: 10),
                               TextFormField(
+                                keyboardType: TextInputType.number,
                                 validator: (value) {
                                   if (value == null || value.isEmpty) {
                                     return 'Enter the phone';
@@ -493,221 +497,226 @@ class HomePage extends StatelessWidget {
         height: double.infinity,
         color: Color(0xFFEBEBEB),
         child: SafeArea(
-          child: SingleChildScrollView(
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                Padding(
-                  padding: const EdgeInsets.all(16),
-                  child: Row(
-                    children: [
-                      Expanded(
-                        child: TextFormField(
-                          controller: searchFilterCtr,
-                          onChanged: (value) {
-                            provider.filterUserSearch(value);
-                          },
-                          decoration: InputDecoration(
-                            prefixIcon: Icon(
-                              Icons.search_rounded,
-                              color: Colors.black,
-                            ),
-
-                            border: OutlineInputBorder(
-                              borderSide: BorderSide(
-                                color: Color.fromARGB(169, 101, 101, 132),
-                                width: 1,
-                              ),
-                              borderRadius: BorderRadius.circular(36),
-                            ),
-                            enabledBorder: OutlineInputBorder(
-                              borderSide: BorderSide(
-                                color: Color.fromARGB(169, 101, 101, 132),
-
-                                width: 1,
-                              ),
-                              borderRadius: BorderRadius.circular(36),
-                            ),
-
-                            focusedBorder: OutlineInputBorder(
-                              borderSide: BorderSide(
-                                color: Color.fromARGB(169, 101, 101, 132),
-                                width: 1,
-                              ),
-
-                              borderRadius: BorderRadius.circular(36),
-                            ),
-                            hint: Row(
-                              children: [
-                                Text(
-                                  'search by name',
-                                  style: TextStyle(
-                                    fontSize: 13,
-                                    fontFamily: 'montserrat',
-                                    fontWeight: FontWeight(400),
-                                  ),
-                                ),
-                              ],
-                            ),
-                          ),
-                        ),
-                      ),
-                      SizedBox(width: 10),
-                      InkWell(
-                        onTap: () {
-                          showModalBottomSheet(
-                            backgroundColor: Colors.white,
-                            context: context,
-                            builder: (context) {
-                              return StatefulBuilder(
-                                builder: (context, setStateSheet) {
-                                  return Container(
-                                    width: double.infinity,
-                                    padding: EdgeInsets.all(20),
-                                    child: Column(
-                                      crossAxisAlignment:
-                                          CrossAxisAlignment.start,
-                                      mainAxisSize: MainAxisSize.min,
-                                      children: [
-                                        Text(
-                                          "Sort",
-                                          style: TextStyle(
-                                            fontSize: 18,
-                                            fontFamily: 'montserrat',
-                                            fontWeight: FontWeight(600),
-                                          ),
-                                        ),
-
-                                        SizedBox(height: 20),
-                                        RadioListTile(
-                                          value: 'All',
-                                          groupValue: sortvalueradiobutton,
-                                          onChanged: (value) {
-                                            setStateSheet(() {
-                                              sortvalueradiobutton = value;
-                                            });
-                                            if (value == 'All') {
-                                              provider.filtereduserdetails =
-                                                  provider.userdetails;
-                                            } else if (value ==
-                                                'Age: Younger') {
-                                              provider.sortByAge(true);
-                                            } else if (value == 'Age: Elder') {
-                                              provider.sortByAge(false);
-                                            }
-                                          },
-                                          title: Text(
-                                            'All',
-                                            style: TextStyle(
-                                              color: Colors.black,
-                                              fontFamily: 'montserrat',
-                                              fontWeight: FontWeight(500),
-                                              fontSize: 14,
-                                            ),
-                                          ),
-                                        ),
-
-                                        RadioListTile(
-                                          value: 'Age: Elder',
-                                          groupValue: sortvalueradiobutton,
-                                          onChanged: (value) {
-                                            setStateSheet(() {
-                                              sortvalueradiobutton = value;
-                                            });
-                                            if (value == 'All') {
-                                              provider.filtereduserdetails =
-                                                  provider.userdetails;
-                                            } else if (value ==
-                                                'Age: Younger') {
-                                              provider.sortByAge(true);
-                                            } else if (value == 'Age: Elder') {
-                                              provider.sortByAge(false);
-                                            }
-                                          },
-                                          title: Text(
-                                            'Age: Elder',
-                                            style: TextStyle(
-                                              color: Colors.black,
-                                              fontFamily: 'montserrat',
-                                              fontWeight: FontWeight(500),
-                                              fontSize: 14,
-                                            ),
-                                          ),
-                                        ),
-                                        RadioListTile(
-                                          value: 'Age: Younger',
-                                          groupValue: sortvalueradiobutton,
-                                          onChanged: (value) {
-                                            setStateSheet(() {
-                                              sortvalueradiobutton = value;
-                                            });
-                                            if (value == 'All') {
-                                              provider.filtereduserdetails =
-                                                  provider.userdetails;
-                                            } else if (value ==
-                                                'Age: Younger') {
-                                              provider.sortByAge(true);
-                                            } else if (value == 'Age: Elder') {
-                                              provider.sortByAge(false);
-                                            }
-                                          },
-                                          title: Text(
-                                            'Age: Younger',
-                                            style: TextStyle(
-                                              color: Colors.black,
-                                              fontFamily: 'montserrat',
-                                              fontWeight: FontWeight(500),
-                                              fontSize: 14,
-                                            ),
-                                          ),
-                                        ),
-                                      ],
-                                    ),
-                                  );
-                                },
-                              );
-                            },
-                          );
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              Padding(
+                padding: const EdgeInsets.all(16),
+                child: Row(
+                  children: [
+                    Expanded(
+                      child: TextFormField(
+                        controller: searchFilterCtr,
+                        onChanged: (value) {
+                          provider.filterUserSearch(value);
                         },
-                        child: Container(
-                          height: 45,
-                          width: 45,
-                          decoration: BoxDecoration(
-                            borderRadius: BorderRadius.circular(10),
-                            color: Color(0xFF100E09),
+                        decoration: InputDecoration(
+                          prefixIcon: Icon(
+                            Icons.search_rounded,
+                            color: Colors.black,
                           ),
-                          child: Icon(
-                            Icons.filter_list_rounded,
-                            color: Colors.white,
-                            size: 40,
+          
+                          border: OutlineInputBorder(
+                            borderSide: BorderSide(
+                              color: Color.fromARGB(169, 101, 101, 132),
+                              width: 1,
+                            ),
+                            borderRadius: BorderRadius.circular(36),
+                          ),
+                          enabledBorder: OutlineInputBorder(
+                            borderSide: BorderSide(
+                              color: Color.fromARGB(169, 101, 101, 132),
+          
+                              width: 1,
+                            ),
+                            borderRadius: BorderRadius.circular(36),
+                          ),
+          
+                          focusedBorder: OutlineInputBorder(
+                            borderSide: BorderSide(
+                              color: Color.fromARGB(169, 101, 101, 132),
+                              width: 1,
+                            ),
+          
+                            borderRadius: BorderRadius.circular(36),
+                          ),
+                          hint: Row(
+                            children: [
+                              Text(
+                                'search by name',
+                                style: TextStyle(
+                                  fontSize: 13,
+                                  fontFamily: 'montserrat',
+                                  fontWeight: FontWeight(400),
+                                ),
+                              ),
+                            ],
                           ),
                         ),
                       ),
-                    ],
-                  ),
-                ),
-                SizedBox(height: 4),
-                Padding(
-                  padding: EdgeInsets.only(right: 16, left: 16),
-                  child: Text(
-                    'users Lists',
-                    style: TextStyle(
-                      color: Colors.black,
-                      fontFamily: 'montserrat',
-                      fontWeight: FontWeight(600),
-                      fontSize: 14,
                     ),
+                    SizedBox(width: 10),
+                    InkWell(
+                      onTap: () {
+                        showModalBottomSheet(
+                          backgroundColor: Colors.white,
+                          context: context,
+                          builder: (context) {
+                            return StatefulBuilder(
+                              builder: (context, setStateSheet) {
+                                return Container(
+                                  width: double.infinity,
+                                  padding: EdgeInsets.all(20),
+                                  child: Column(
+                                    crossAxisAlignment:
+                                        CrossAxisAlignment.start,
+                                    mainAxisSize: MainAxisSize.min,
+                                    children: [
+                                      Text(
+                                        "Sort",
+                                        style: TextStyle(
+                                          fontSize: 18,
+                                          fontFamily: 'montserrat',
+                                          fontWeight: FontWeight(600),
+                                        ),
+                                      ),
+          
+                                      SizedBox(height: 20),
+                                      RadioListTile(
+                                        value: 'All',
+                                        groupValue: sortvalueradiobutton,
+                                        onChanged: (value) {
+                                          setStateSheet(() {
+                                            sortvalueradiobutton = value;
+                                          });
+                                          if (value == 'All') {
+                                            provider.filtereduserdetails =
+                                                provider.userdetails;
+                                          } else if (value ==
+                                              'Age: Younger') {
+                                            provider.sortByAge(true);
+                                          } else if (value == 'Age: Elder') {
+                                            provider.sortByAge(false);
+                                          }
+                                          Navigator.pop(context);
+                                        },
+                                        title: Text(
+                                          'All',
+                                          style: TextStyle(
+                                            color: Colors.black,
+                                            fontFamily: 'montserrat',
+                                            fontWeight: FontWeight(500),
+                                            fontSize: 14,
+                                          ),
+                                        ),
+                                      ),
+          
+                                      RadioListTile(
+                                        value: 'Age: Elder',
+                                        groupValue: sortvalueradiobutton,
+                                        onChanged: (value) {
+                                          setStateSheet(() {
+                                            sortvalueradiobutton = value;
+                                          });
+                                          if (value == 'All') {
+                                            provider.filtereduserdetails =
+                                                provider.userdetails;
+                                          } else if (value ==
+                                              'Age: Younger') {
+                                            provider.sortByAge(true);
+                                          } else if (value == 'Age: Elder') {
+                                            provider.sortByAge(false);
+                                          }
+                                          Navigator.pop(context);
+
+                                        },
+                                        title: Text(
+                                          'Age: Elder',
+                                          style: TextStyle(
+                                            color: Colors.black,
+                                            fontFamily: 'montserrat',
+                                            fontWeight: FontWeight(500),
+                                            fontSize: 14,
+                                          ),
+                                        ),
+                                      ),
+                                      RadioListTile(
+                                        value: 'Age: Younger',
+                                        groupValue: sortvalueradiobutton,
+                                        onChanged: (value) {
+                                          setStateSheet(() {
+                                            sortvalueradiobutton = value;
+                                          });
+                                          if (value == 'All') {
+                                            provider.filtereduserdetails =
+                                                provider.userdetails;
+                                          } else if (value ==
+                                              'Age: Younger') {
+                                            provider.sortByAge(true);
+                                          } else if (value == 'Age: Elder') {
+                                            provider.sortByAge(false);
+                                          }
+                                          Navigator.pop(context);
+
+                                        },
+                                        title: Text(
+                                          'Age: Younger',
+                                          style: TextStyle(
+                                            color: Colors.black,
+                                            fontFamily: 'montserrat',
+                                            fontWeight: FontWeight(500),
+                                            fontSize: 14,
+                                          ),
+                                        ),
+                                      ),
+                                    ],
+                                  ),
+                                );
+                              },
+                            );
+                          },
+                        );
+                      },
+                      child: Container(
+                        height: 45,
+                        width: 45,
+                        decoration: BoxDecoration(
+                          borderRadius: BorderRadius.circular(10),
+                          color: Color(0xFF100E09),
+                        ),
+                        child: Icon(
+                          Icons.filter_list_rounded,
+                          color: Colors.white,
+                          size: 40,
+                        ),
+                      ),
+                    ),
+                  ],
+                ),
+              ),
+              SizedBox(height: 4),
+              Padding(
+                padding: EdgeInsets.only(right: 16, left: 16),
+                child: Text(
+                  'users Lists',
+                  style: TextStyle(
+                    color: Colors.black,
+                    fontFamily: 'montserrat',
+                    fontWeight: FontWeight(600),
+                    fontSize: 14,
                   ),
                 ),
-                SizedBox(height: 20),
-                provider.filtereduserdetails.isEmpty
-                    ? Center(child: Text('No user found'))
-                    : ListView.builder(
-                        shrinkWrap: true,
-                        physics: NeverScrollableScrollPhysics(),
-
+              ),
+              SizedBox(height: 20),
+              provider.filtereduserdetails.isEmpty
+                  ? Center(child: Text('No user found'))
+                  : Expanded(
+                    child: ListView.builder(
+                        // shrinkWrap: true,
+                                    
+                              
                         itemCount: provider.filtereduserdetails.length,
-
+                              
                         itemBuilder: (context, index) {
                           return Container(
                             margin: EdgeInsets.only(
@@ -790,8 +799,8 @@ class HomePage extends StatelessWidget {
                           );
                         },
                       ),
-              ],
-            ),
+                  ),
+            ],
           ),
         ),
       ),

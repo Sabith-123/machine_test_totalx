@@ -9,11 +9,13 @@ import 'package:machine_test_totalx/models/user_model.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 class UserProvider extends ChangeNotifier {
+
   List<UserModel> userdetails = [];
   List<UserModel> filtereduserdetails = [];
   XFile? images;
   Uint8List? imageBytes;
   String? base64Image;
+
 
   //========= fetchdata forn local store =======
 
@@ -24,6 +26,8 @@ class UserProvider extends ChangeNotifier {
       final List decodedata = jsonDecode(data);
       userdetails = decodedata.map((e) => UserModel.fromJson(e)).toList();
       filtereduserdetails = userdetails;
+     
+ 
     }
     notifyListeners();
   }
